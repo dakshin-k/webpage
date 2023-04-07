@@ -16,7 +16,7 @@ jobs:
           yarn test
           yarn build
       - name: Save build
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: webpage/build
           key: build-cache
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Get build
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: webpage/build
           key: build-cache
@@ -57,12 +57,26 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   deploy-webpage:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04
     needs: publish-image
     steps:
-      - uses: actions/checkout@v3
-        name: Run ansible-lint
-      - uses: ansible-community/ansible-lint-action@v6.0.2
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Ansible lint
+        uses: ansible-community/ansible-lint-action@v6.0.2
         with:
           args: "ansible"
-
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.ssh_key }}
+      - uses: actions/setup-python@v2
+      - name: Run playbook
+        run: |
+          pip install ansible
+          ansible-playbook -i ansible/inventory.yml \
+          -e REGISTRY_USERNAME=${{ github.actor }} \
+          -e REGISTRY_PWD=${{ secrets.GITHUB_TOKEN }} \
+          -e IMAGE_URL=ghcr.io/dakshin-k/webpage:main \
+          ansible/playbook.yml

@@ -17,7 +17,7 @@
             target: /etc/nginx/dakshin.xyz.crt
             type: bind
             read_only: true
-          - source:  /etc/letsencrypt/live/dakshin.xyz/privkey.pem
+          - source: /etc/letsencrypt/live/dakshin.xyz/privkey.pem
             target: /etc/nginx/dakshin.xyz.key
             type: bind
             read_only: true
