@@ -4,6 +4,8 @@ on: [push]
 jobs:
   build-webpage:
     runs-on: ubuntu-22.04
+    permissions:
+          packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -15,24 +17,7 @@ jobs:
           yarn install --frozen-lockfile
           yarn test
           yarn build
-      - name: Save build
-        uses: actions/cache@v3
-        with:
-          path: webpage/build
-          key: build-cache
 
-  publish-image:
-    runs-on: ubuntu-22.04
-    needs: build-webpage
-    permissions:
-          packages: write
-    steps:
-      - uses: actions/checkout@v3
-      - name: Get build
-        uses: actions/cache@v3
-        with:
-          path: webpage/build
-          key: build-cache
       - name: Log in to Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -57,9 +42,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   deploy-webpage:
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04
-    needs: publish-image
+    needs: build-webpage
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
