@@ -45,7 +45,7 @@ These are the parameters I adjusted in the config:
 ![img-a](/assets/posts/dactyl-manuform/one.png){: .normal .mw-50 .me-2}
 ![img-b](/assets/posts/dactyl-manuform/two.png){: .normal .mw-50 }
 
-Once I was satified with the results, it was a simple matter to export the STL files from OpenSCAD and get them 3D printed. I used [3ding.in](https://3ding.in) as they have a good online interface for printing, and they can ship all over India.
+Once I was satisfied with the results, it was a simple matter to export the STL files from OpenSCAD and get them 3D printed. I used [3ding.in](https://3ding.in) as they have a good online interface for printing, and they can ship all over India.
 
 ## Switches and Keycaps
 
@@ -69,7 +69,8 @@ ZMK was the only one with Bluetooth support for the split halves and supporting 
 ## Misc. Electrical Supplies
 
 [https://robu.in](Robu.in) is the place to go to for hobby electronics in India. I 
-got 2 Lithium ion batteries 
+got 2 Lithium ion batteries and a bunch of smaller items like controller legs, wires,
+soldering equipment, screws and standoffs, power switches etc. over there.
 
 ## Summary of Parts and Cost
 
